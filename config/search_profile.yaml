@@ -1,0 +1,30 @@
+profile_name: "Morgan's Job Search"
+
+keywords:
+  include:
+    - outdoor education
+    - environmental educator
+    - watershed
+    - conservation
+    - climate
+    - python
+    - backend
+    - field technician
+    - stewardship
+
+  exclude:
+    - senior
+    - director
+    - unpaid
+    - sales
+
+locations:
+  include:
+    - San Francisco
+    - Marin
+    - California
+    - Remote
+
+weekly_digest:
+  max_jobs: 6
+  goal_applications: 3
