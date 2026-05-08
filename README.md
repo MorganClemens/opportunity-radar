@@ -1,6 +1,6 @@
 # Opportunity Radar
 
-**Opportunity Radar** is a personal Monday morning job digest that finds 4-6 aligned roles and emails them to me. 
+**Opportunity Radar** finds 4-6 aligned roles and emails them to me as a weekly digest. 
 
 The goal is to make finding compelling roles more sustainable over time.
 
