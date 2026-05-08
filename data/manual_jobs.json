@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Watershed Technician",
+    "org": "Example Conservation Org",
+    "location": "Marin County, CA",
+    "url": "https://example.com/watershed-technician",
+    "description": "Field-based watershed monitoring, habitat restoration, data collection, and conservation work."
+  },
+  {
+    "title": "Environmental Educator",
+    "org": "Example Outdoor School",
+    "location": "San Francisco, CA",
+    "url": "https://example.com/environmental-educator",
+    "description": "Teach students outdoors through place-based environmental education and stewardship activities."
+  },
+  {
+    "title": "Senior Director of Sales",
+    "org": "Example Company",
+    "location": "Remote",
+    "url": "https://example.com/sales",
+    "description": "Lead sales strategy and manage enterprise accounts."
+  }
+]
