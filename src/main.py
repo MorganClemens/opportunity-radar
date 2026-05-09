@@ -1,6 +1,7 @@
 from config import load_config
 from sources.manual import get_jobs
 from filters import filter_jobs
+from emailer import send_email
 
 def build_digest(jobs, config):
     profile_name = config["profile_name"]
@@ -41,6 +42,11 @@ def main():
 
     digest = build_digest(jobs, config)
     print(digest)
+
+    send_email(
+        subject="Opportunity Radar - Weekly Digest",
+        body=digest
+    )
 
 if __name__ == "__main__":
     main()
