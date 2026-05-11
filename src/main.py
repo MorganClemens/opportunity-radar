@@ -2,6 +2,12 @@ from config import load_config
 from sources.manual import get_jobs
 from filters import filter_jobs
 from emailer import send_email
+from seen_jobs import (
+    filter_seen_jobs,
+    load_seen_jobs,
+    mark_jobs_seen,
+    save_seen_jobs,
+)
 
 def build_digest(jobs, config):
     profile_name = config["profile_name"]
@@ -37,6 +43,8 @@ def main():
     jobs = get_jobs()
 
     jobs = filter_jobs(jobs, config)
+    seen_jobs = load_seen_jobs()
+    jobs = filter_seen_jobs(jobs, seen_jobs)
     max_jobs = config["weekly_digest"]["max_jobs"]
     jobs = jobs[:max_jobs]
 
@@ -47,6 +55,9 @@ def main():
         subject="Opportunity Radar - Weekly Digest",
         body=digest
     )
+
+    seen_jobs = mark_jobs_seen(jobs, seen_jobs)
+    save_seen_jobs(seen_jobs)
 
 if __name__ == "__main__":
     main()
