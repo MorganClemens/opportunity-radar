@@ -1,5 +1,5 @@
 from config import load_config
-from sources.manual import get_jobs
+from sources.manual import get_jobs as get_manual_jobs
 from filters import filter_jobs
 from emailer import send_email
 from seen_jobs import (
@@ -8,6 +8,7 @@ from seen_jobs import (
     mark_jobs_seen,
     save_seen_jobs,
 )
+from sources.greenhouse import get_jobs as get_greenhouse_jobs
 
 def build_digest(jobs, config):
     profile_name = config["profile_name"]
@@ -40,7 +41,10 @@ def build_digest(jobs, config):
 
 def main():
     config = load_config()
-    jobs = get_jobs()
+    manual_jobs = get_manual_jobs()
+    greenhouse_jobs = get_greenhouse_jobs()
+
+    jobs = manual_jobs + greenhouse_jobs
 
     jobs = filter_jobs(jobs, config)
     seen_jobs = load_seen_jobs()
