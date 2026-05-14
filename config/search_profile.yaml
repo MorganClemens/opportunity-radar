@@ -39,3 +39,4 @@ source_weights:
 weekly_digest:
   max_jobs: 6
   goal_applications: 2
+  minimum_score: 4
