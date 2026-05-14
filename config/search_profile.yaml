@@ -22,7 +22,7 @@ locations:
   include:
     - San Francisco
     - Marin
-    - California
+    - Bay Area
     - Remote
 
 sources:
@@ -31,6 +31,11 @@ sources:
   greenhouse:
     - watershed
 
+source_weights:
+  manual: 3
+  greenhouse: 1
+
+
 weekly_digest:
   max_jobs: 6
-  goal_applications: 3
+  goal_applications: 2
