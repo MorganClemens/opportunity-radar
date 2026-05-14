@@ -57,6 +57,8 @@ def main():
     jobs = filter_jobs(jobs, config)
     seen_jobs = load_seen_jobs()
     jobs = rank_jobs(jobs, config, seen_jobs)
+    minimum_score = config["weekly_digest"].get("minimum_score", 0)
+    jobs = [job for job in jobs if job["score"] >= minimum_score]
     max_jobs = config["weekly_digest"]["max_jobs"]
     jobs = jobs[:max_jobs]
 

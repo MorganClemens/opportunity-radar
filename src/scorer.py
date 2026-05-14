@@ -2,6 +2,14 @@ def score_job(job, config, seen_jobs):
     score = 0
     reasons = []
 
+    source = job.get("source", "")
+    source_weights = config.get("source_weights", {})
+    source_bonus = source_weights.get(source, 0)
+    score += source_bonus
+
+    if source_bonus:
+        reasons.append(f"source weight: {source_bonus}")
+
     matches = job.get("matches", [])
     score += len(matches) * 2
 
@@ -16,7 +24,6 @@ def score_job(job, config, seen_jobs):
             score += 2
             reasons.append(f"preferred location: {preferred_location}")
             break
-    
     if "remote" in location:
         score += 1
         reasons.append("remote")
