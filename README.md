@@ -1,26 +1,28 @@
 # Opportunity Radar
 
-**Opportunity Radar** finds 4-6 aligned roles and emails them to me as a weekly digest. 
+Opportunity Radar is a lightweight job discovery pipeline that aggregates opportunities from configurable sources, filters them against personalized criteria, and delivers a weekly email digest.
 
-The goal is to make finding compelling roles more sustainable over time.
+The goal is to make finding meaningful work more sustainable over time.
 
-Core Workflow
+## Core Workflow
 
-```plain text
-Sources -> Normalize jobs -> Score/filter -> Pick top 4-6 -> Email digest
-```
+Sources → Normalize jobs → Filter/score → Select top matches → Email digest
 
----
+## Features
 
-## 🌱 Status
+- Configurable job sources
+- Keyword and location filtering
+- Seen-job tracking
+- Weekly email digest
+- GitHub Actions automation
 
-🚧 Early build — core job aggregation and filtering in progress
+## Current Sources
 
----
+- Manual JSON input
+- Greenhouse job boards
 
-## 🔍 Features (Planned)
+## Philosophy
 
-- Aggregate job listings from curated sources
-- Filter by keywords (e.g., conservation, education, Python)
-- Weekly job digest
-- Update README so anyone can use this tool
+Opportunity Radar is intentionally lightweight, modular, and configurable.
+
+The project is designed around interchangeable sources and filters so it can evolve over time without becoming overly complex.
