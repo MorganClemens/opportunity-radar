@@ -25,6 +25,12 @@ locations:
     - California
     - Remote
 
+sources:
+  manual: true
+
+  greenhouse:
+    - watershed
+
 weekly_digest:
   max_jobs: 6
   goal_applications: 3
