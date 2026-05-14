@@ -3,12 +3,12 @@ from sources.manual import get_jobs as get_manual_jobs
 from filters import filter_jobs
 from emailer import send_email
 from seen_jobs import (
-    filter_seen_jobs,
     load_seen_jobs,
     mark_jobs_seen,
     save_seen_jobs,
 )
 from sources.greenhouse import get_jobs as get_greenhouse_jobs
+from scorer import rank_jobs
 
 def build_digest(jobs, config):
     profile_name = config["profile_name"]
@@ -33,6 +33,9 @@ def build_digest(jobs, config):
         lines.append(f"{index}. {job['title']} — {job['org']}")
         lines.append(f"   Location: {job['location']}")
         lines.append(f"   Matches: {matches}")
+        lines.append(f"   Score: {job.get('score', 0)}")
+        lines.append(f"   Status: {'New' if job.get('is_new') else 'Seen before'}")
+        lines.append(f"   Why: {', '.join(job.get('score_reasons', []))}")
         lines.append(f"   Link: {job['url']}")
         lines.append("")
 
@@ -51,10 +54,9 @@ def main():
         all_jobs.extend(get_greenhouse_jobs(board_token))
 
     jobs = all_jobs
-
     jobs = filter_jobs(jobs, config)
     seen_jobs = load_seen_jobs()
-    jobs = filter_seen_jobs(jobs, seen_jobs)
+    jobs = rank_jobs(jobs, config, seen_jobs)
     max_jobs = config["weekly_digest"]["max_jobs"]
     jobs = jobs[:max_jobs]
 
