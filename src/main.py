@@ -41,10 +41,16 @@ def build_digest(jobs, config):
 
 def main():
     config = load_config()
-    manual_jobs = get_manual_jobs()
-    greenhouse_jobs = get_greenhouse_jobs()
 
-    jobs = manual_jobs + greenhouse_jobs
+    all_jobs = []
+    
+    if config["sources"].get("manual"):
+        all_jobs.extend(get_manual_jobs())
+    
+    for board_token in config["sources"].get("greenhouse", []):
+        all_jobs.extend(get_greenhouse_jobs(board_token))
+
+    jobs = all_jobs
 
     jobs = filter_jobs(jobs, config)
     seen_jobs = load_seen_jobs()
