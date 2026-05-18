@@ -27,6 +27,19 @@ def build_digest(jobs, config):
         lines.append("No matching jobs found this week.")
         return "\n".join(lines)
     
+    
+    top_job = jobs[0]
+
+    lines.append("Top Match This Week")
+    lines.append("")
+    lines.append(f"{top_job['title']} — {top_job['org']}")
+    lines.append(f"Score: {top_job.get('score', 0)}")
+    lines.append(f"Why: {', '.join(top_job.get('score_reasons', []))}")
+    lines.append("")
+    lines.append("-" * 40)
+    lines.append("")
+    
+
     for index, job in enumerate(jobs, start=1):
         matches = ", ".join(job.get("matches", []))
 
