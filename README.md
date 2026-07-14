@@ -4,6 +4,11 @@ Opportunity Radar watches the official career pages of companies you would love
 to work for and emails you when a new opening appears in one of your chosen
 locations.
 
+This project is also my experiment in agentic coding: I work with coding agents
+to shape the product, research integrations, implement and test features, and
+maintain the automation. It is a practical exploration of how people and agents
+can build useful, evolving software together.
+
 The configured watches cover San Francisco's commercial climbing gyms:
 
 - Movement San Francisco in the Presidio
