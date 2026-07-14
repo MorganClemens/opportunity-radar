@@ -15,6 +15,14 @@ def collect_jobs(companies):
             from sources.dayforce import get_jobs as get_dayforce_jobs
 
             jobs.extend(get_dayforce_jobs(company))
+        elif source == "rippling":
+            from sources.rippling import get_jobs as get_rippling_jobs
+
+            jobs.extend(get_rippling_jobs(company))
+        elif source == "benchmark":
+            from sources.benchmark import get_jobs as get_benchmark_jobs
+
+            jobs.extend(get_benchmark_jobs(company))
         else:
             raise ValueError(
                 f"Unsupported source '{source}' for company '{company['name']}'"

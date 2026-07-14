@@ -4,7 +4,18 @@ Opportunity Radar watches the official career pages of companies you would love
 to work for and emails you when a new opening appears in one of your chosen
 locations.
 
-The first configured watch is **Movement in San Francisco**.
+The configured watches cover San Francisco's commercial climbing gyms:
+
+- Movement San Francisco in the Presidio
+- Benchmark Climbing on Van Ness
+- Touchstone Climbing's Mission Cliffs and Dogpatch Boulders
+- Touchstone's forthcoming Aisle 19, once its jobs appear in the same feed
+
+Only San Francisco postings are selected from company-wide job boards. Benchmark
+does not label every role by gym, so Benchmark alerts explicitly ask you to
+verify whether the opening is for San Francisco or Berkeley.
+Touchstone roles labeled "Regional" are excluded because they can require travel
+throughout Northern California.
 
 ## How it works
 
@@ -30,8 +41,9 @@ companies:
     exclude_titles: []
 ```
 
-The initial version supports public Dayforce job boards. Additional career
-systems can be added as small source adapters under `src/sources/`.
+The app supports the public Dayforce and Rippling job boards used by Movement
+and Touchstone, plus Benchmark's company jobs page. Additional career systems
+can be added as small source adapters under `src/sources/`.
 
 ## Run it locally
 

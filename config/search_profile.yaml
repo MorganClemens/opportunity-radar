@@ -7,3 +7,22 @@ companies:
     locations:
       - San Francisco
     exclude_titles: []
+
+  - name: Touchstone Climbing
+    source: rippling
+    board_url: https://ats.rippling.com/touchstone-climbing/jobs
+    locations:
+      - San Francisco
+    # Regional roles can require regular travel across Northern California.
+    exclude_titles:
+      - Regional
+
+  - name: Benchmark Climbing
+    source: benchmark
+    board_url: https://www.benchmarkclimbing.com/jobs
+    # Benchmark does not label each opening by gym. Its SF location is on Van Ness,
+    # but an opening may also cover its Berkeley gym; the alert makes this explicit.
+    default_location: San Francisco / Berkeley (verify with Benchmark)
+    locations:
+      - San Francisco
+    exclude_titles: []
