@@ -1,90 +1,96 @@
+import argparse
+
+from company_watch import filter_watched_jobs
 from config import load_config
-from sources.manual import get_jobs as get_manual_jobs
-from filters import filter_jobs
 from emailer import send_email
-from seen_jobs import (
-    load_seen_jobs,
-    mark_jobs_seen,
-    save_seen_jobs,
-)
-from sources.greenhouse import get_jobs as get_greenhouse_jobs
-from scorer import rank_jobs
+from seen_jobs import filter_seen_jobs, load_seen_jobs, mark_jobs_seen, save_seen_jobs
 
-def build_digest(jobs, config):
-    profile_name = config["profile_name"]
-    max_jobs = config["weekly_digest"]["max_jobs"]
-    goal_applications = config["weekly_digest"]["goal_applications"]
 
+def collect_jobs(companies):
+    jobs = []
+
+    for company in companies:
+        source = company.get("source")
+        if source == "dayforce":
+            from sources.dayforce import get_jobs as get_dayforce_jobs
+
+            jobs.extend(get_dayforce_jobs(company))
+        else:
+            raise ValueError(
+                f"Unsupported source '{source}' for company '{company['name']}'"
+            )
+
+    return jobs
+
+
+def build_alert(jobs):
+    count = len(jobs)
     lines = [
-        f"Opportunity Radar — {profile_name}",
+        "Opportunity Radar — New Company Openings",
         "",
-        f"Goal: apply to {goal_applications} jobs this week.",
-        f"Showing up to {max_jobs} matching opportunities.",
+        f"{count} new {'opening' if count == 1 else 'openings'} found.",
         "",
     ]
 
-    if not jobs:
-        lines.append("No matching jobs found this week.")
-        return "\n".join(lines)
-    
-    
-    top_job = jobs[0]
-
-    lines.append("Top Match This Week")
-    lines.append("")
-    lines.append(f"{top_job['title']} — {top_job['org']}")
-    lines.append(f"Score: {top_job.get('score', 0)}")
-    lines.append(f"Why: {', '.join(top_job.get('score_reasons', []))}")
-    lines.append("")
-    lines.append("-" * 40)
-    lines.append("")
-    
-
     for index, job in enumerate(jobs, start=1):
-        matches = ", ".join(job.get("matches", []))
-
-        lines.append(f"{index}. {job['title']} — {job['org']}")
-        lines.append(f"   Location: {job['location']}")
-        lines.append(f"   Matches: {matches}")
-        lines.append(f"   Score: {job.get('score', 0)}")
-        lines.append(f"   Status: {'New' if job.get('is_new') else 'Seen before'}")
-        lines.append(f"   Why: {', '.join(job.get('score_reasons', []))}")
-        lines.append(f"   Link: {job['url']}")
-        lines.append("")
+        lines.extend(
+            [
+                f"{index}. {job['title']} — {job['org']}",
+                f"   Location: {job['location']}",
+                f"   Link: {job['url']}",
+                "",
+            ]
+        )
 
     return "\n".join(lines)
 
 
-def main():
+def run(send_notifications=True):
     config = load_config()
+    companies = config.get("companies", [])
+    if not companies:
+        raise RuntimeError("Add at least one company to config/search_profile.yaml")
 
-    all_jobs = []
-    
-    if config["sources"].get("manual"):
-        all_jobs.extend(get_manual_jobs())
-    
-    for board_token in config["sources"].get("greenhouse", []):
-        all_jobs.extend(get_greenhouse_jobs(board_token))
-
-    jobs = all_jobs
-    jobs = filter_jobs(jobs, config)
+    all_jobs = collect_jobs(companies)
+    watched_jobs = filter_watched_jobs(all_jobs, companies)
     seen_jobs = load_seen_jobs()
-    jobs = rank_jobs(jobs, config, seen_jobs)
-    minimum_score = config["weekly_digest"].get("minimum_score", 0)
-    jobs = [job for job in jobs if job["score"] >= minimum_score]
-    max_jobs = config["weekly_digest"]["max_jobs"]
-    jobs = jobs[:max_jobs]
+    new_jobs = filter_seen_jobs(watched_jobs, seen_jobs)
 
-    digest = build_digest(jobs, config)
-    print(digest)
+    if not new_jobs:
+        print(
+            f"Checked {len(companies)} watched companies; "
+            "no new matching openings found."
+        )
+        return []
 
-    send_email(
-        subject="Opportunity Radar - Weekly Digest",
-        body=digest
+    alert = build_alert(new_jobs)
+    print(alert)
+
+    if send_notifications:
+        send_email(
+            subject=(
+                "Opportunity Radar - "
+                f"{len(new_jobs)} new {'opening' if len(new_jobs) == 1 else 'openings'}"
+            ),
+            body=alert,
+        )
+
+    if send_notifications:
+        mark_jobs_seen(new_jobs, seen_jobs)
+        save_seen_jobs(seen_jobs)
+    return new_jobs
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Monitor selected companies for jobs")
+    parser.add_argument(
+        "--no-email",
+        action="store_true",
+        help="print results without sending an email",
     )
+    args = parser.parse_args()
+    run(send_notifications=not args.no_email)
 
-    seen_jobs = mark_jobs_seen(jobs, seen_jobs)
-    save_seen_jobs(seen_jobs)
 
 if __name__ == "__main__":
     main()

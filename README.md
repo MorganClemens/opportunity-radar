@@ -1,28 +1,46 @@
 # Opportunity Radar
 
-Opportunity Radar is a lightweight job discovery pipeline that aggregates opportunities from configurable sources, filters them against personalized criteria, and delivers a weekly email digest.
+Opportunity Radar watches the official career pages of companies you would love
+to work for and emails you when a new opening appears in one of your chosen
+locations.
 
-The goal is to make finding meaningful work more sustainable over time.
+The first configured watch is **Movement in San Francisco**.
 
-## Core Workflow
+## How it works
 
-Sources → Normalize jobs → Filter/score → Select top matches → Email digest
+1. A daily GitHub Actions run opens each company's official job board.
+2. Jobs are filtered by the locations configured for that company.
+3. Previously reported job links are removed.
+4. New openings are emailed immediately and recorded so they are not sent again.
 
-## Features
+No role keywords are required. If a watched company posts any position in a
+chosen location, you hear about it.
 
-- Configurable job sources
-- Keyword and location filtering
-- Seen-job tracking
-- Weekly email digest
-- GitHub Actions automation
+## Add another company
 
-## Current Sources
+Add an entry to `config/search_profile.yaml`:
 
-- Manual JSON input
-- Greenhouse job boards
+```yaml
+companies:
+  - name: Movement
+    source: dayforce
+    board_url: https://jobs.dayforcehcm.com/movementgyms/CANDIDATEPORTAL
+    locations:
+      - San Francisco
+    exclude_titles: []
+```
 
-## Philosophy
+The initial version supports public Dayforce job boards. Additional career
+systems can be added as small source adapters under `src/sources/`.
 
-Opportunity Radar is intentionally lightweight, modular, and configurable.
+## Run it locally
 
-The project is designed around interchangeable sources and filters so it can evolve over time without becoming overly complex.
+```bash
+pip install -r requirements.txt
+playwright install chromium
+python src/main.py --no-email
+```
+
+The preview does not record jobs as seen. Remove `--no-email` to send an alert
+and record the openings using `EMAIL_ADDRESS`, `EMAIL_APP_PASSWORD`, and
+`EMAIL_TO` from your environment or `.env` file.
