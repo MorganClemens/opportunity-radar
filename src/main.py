@@ -23,6 +23,10 @@ def collect_jobs(companies):
             from sources.benchmark import get_jobs as get_benchmark_jobs
 
             jobs.extend(get_benchmark_jobs(company))
+        elif source == "gravity_vault":
+            from sources.gravity_vault import get_jobs as get_gravity_vault_jobs
+
+            jobs.extend(get_gravity_vault_jobs(company))
         else:
             raise ValueError(
                 f"Unsupported source '{source}' for company '{company['name']}'"

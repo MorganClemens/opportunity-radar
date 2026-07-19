@@ -15,6 +15,7 @@ The configured watches cover San Francisco's commercial climbing gyms:
 - Benchmark Climbing on Van Ness
 - Touchstone Climbing's Mission Cliffs and Dogpatch Boulders
 - Touchstone's forthcoming Aisle 19, once its jobs appear in the same feed
+- The Gravity Vault Marin in San Rafael
 
 Only San Francisco postings are selected from company-wide job boards. Benchmark
 does not label every role by gym, so Benchmark alerts explicitly ask you to
@@ -47,8 +48,9 @@ companies:
 ```
 
 The app supports the public Dayforce and Rippling job boards used by Movement
-and Touchstone, plus Benchmark's company jobs page. Additional career systems
-can be added as small source adapters under `src/sources/`.
+and Touchstone, plus the company careers pages used by Benchmark and The Gravity
+Vault. Additional career systems can be added as small source adapters under
+`src/sources/`.
 
 ## Run it locally
 

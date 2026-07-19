@@ -26,3 +26,11 @@ companies:
     locations:
       - San Francisco
     exclude_titles: []
+
+  - name: The Gravity Vault Marin
+    source: gravity_vault
+    board_url: https://gravityvault.com/careers?zipcode=94903
+    default_location: San Rafael, Marin County
+    locations:
+      - Marin County
+    exclude_titles: []
