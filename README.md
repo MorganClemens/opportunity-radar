@@ -9,19 +9,15 @@ to shape the product, research integrations, implement and test features, and
 maintain the automation. It is a practical exploration of how people and agents
 can build useful, evolving software together.
 
-The configured watches cover San Francisco's commercial climbing gyms:
+The configured watches currently cover:
 
 - Movement San Francisco in the Presidio
 - Benchmark Climbing on Van Ness
-- Touchstone Climbing's Mission Cliffs and Dogpatch Boulders
-- Touchstone's forthcoming Aisle 19, once its jobs appear in the same feed
 - The Gravity Vault Marin in San Rafael
 
 Only San Francisco postings are selected from company-wide job boards. Benchmark
 does not label every role by gym, so Benchmark alerts explicitly ask you to
 verify whether the opening is for San Francisco or Berkeley.
-Touchstone roles labeled "Regional" are excluded because they can require travel
-throughout Northern California.
 
 ## How it works
 
@@ -47,10 +43,9 @@ companies:
     exclude_titles: []
 ```
 
-The app supports the public Dayforce and Rippling job boards used by Movement
-and Touchstone, plus the company careers pages used by Benchmark and The Gravity
-Vault. Additional career systems can be added as small source adapters under
-`src/sources/`.
+The app supports public Dayforce and Rippling job boards, plus the company
+careers pages used by Benchmark and The Gravity Vault. Additional career systems
+can be added as small source adapters under `src/sources/`.
 
 ## Run it locally
 
